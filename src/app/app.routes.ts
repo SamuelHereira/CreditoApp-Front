@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
+import { AuthGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -17,7 +18,7 @@ export const routes: Routes = [
       import('./pages/dashboard/dashboard.component').then(
         (m) => m.DashboardComponent
       ),
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     data: { roles: ['Applicant'] },
   },
   //   { path: 'review', loadComponent: () => import('./pages/analyst-review/review.component').then(m => m.ReviewComponent), canActivate: [AuthGuard], data: { roles: ['Analyst'] } },
