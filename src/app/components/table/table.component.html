@@ -1,0 +1,49 @@
+<div class="overflow-x-auto">
+  <table class="min-w-full divide-y divide-gray-200 text-sm text-left">
+    <thead class="bg-gray-100 text-xs uppercase text-gray-700">
+      <tr>
+        <th *ngFor="let column of columns" class="px-6 py-3 font-medium">
+          {{ column.header }}
+        </th>
+        <th *ngIf="actions.length" class="px-6 py-3 font-medium">Acciones</th>
+      </tr>
+    </thead>
+    <tbody class="bg-white divide-y divide-gray-200">
+      <tr *ngFor="let row of paginationEnabled ? paginatedData : data">
+        <td *ngFor="let column of columns" class="px-6 py-4">
+          {{ row[column.key] }}
+        </td>
+        <td *ngIf="actions.length" class="px-6 py-4 space-x-2">
+          <button
+            *ngFor="let action of actions"
+            (click)="action.callback(row)"
+            class="text-blue-600 hover:underline"
+          >
+            {{ action.label }}
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div
+    *ngIf="paginationEnabled"
+    class="flex justify-center items-center gap-4 mt-4"
+  >
+    <button
+      class="px-4 py-2 bg-gray-200 rounded"
+      (click)="prevPage()"
+      [disabled]="currentPage === 1"
+    >
+      Anterior
+    </button>
+    <span>{{ currentPage }} / {{ totalPages }}</span>
+    <button
+      class="px-4 py-2 bg-gray-200 rounded"
+      (click)="nextPage()"
+      [disabled]="currentPage === totalPages"
+    >
+      Siguiente
+    </button>
+  </div>
+</div>
