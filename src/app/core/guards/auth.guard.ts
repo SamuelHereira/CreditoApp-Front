@@ -24,9 +24,13 @@ export class AuthGuard implements CanActivate {
     }
 
     try {
+      console.log('Token:', token);
+
       const decoded: any = jwtDecode(token);
-      const rolesFromToken =
-        decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+      const rolesFromToken = decoded['role'];
+
+      console.log('Decoded token:', decoded);
+      console.log('Roles from token:', rolesFromToken);
 
       const routeRoles = route.data['roles'] as string[] | undefined;
 

@@ -1,7 +1,32 @@
+<app-navbar></app-navbar>
 <app-table
-  [data]="data"
+  [data]="requests"
   [columns]="columns"
-  [actions]="actions"
   [paginationEnabled]="true"
-  [pageSize]="1"
+  [pageSize]="5"
 ></app-table>
+
+<ng-template #statusTemplate let-value="value">
+  <span
+    class="text-xs font-medium px-2 py-1 rounded-full"
+    [ngClass]="{
+      'bg-green-100 text-green-800': value === 'Approved',
+      'bg-yellow-100 text-yellow-800': value === 'Pending',
+      'bg-red-100 text-red-800': value === 'Rejected'
+    }"
+  >
+    {{
+      value === "Approved"
+        ? "Aprobada"
+        : value === "Pending"
+        ? "Pendiente"
+        : "Rechazada"
+    }}
+  </span>
+</ng-template>
+
+<ng-template #actionsTemplate let-row="row">
+  <button (click)="deleteRequest(row.id)" class="text-red-600 hover:underline">
+    Eliminar
+  </button>
+</ng-template>

@@ -1,0 +1,131 @@
+<app-navbar></app-navbar>
+<!-- crear formulario de credito -->
+<div class="w-full">
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+    <div class="max-w-lg mx-auto p-8 my-4">
+      <h2 class="text-2xl font-bold text-center mb-6">
+        Nueva Solicitud de Crédito
+      </h2>
+
+      <!-- Card de Datos del cliente -->
+      <div class="bg-white shadow-md rounded-lg p-6 mb-4">
+        <h3 class="text-lg font-bold mb-4">Datos del Cliente</h3>
+        <p>
+          <strong>Nombre:</strong> {{ userData.name }} {{ userData.lastname }}
+        </p>
+        <p><strong>Email:</strong> {{ userData.email }}</p>
+      </div>
+
+      <!--
+        <div
+          *ngIf="errorMessage"
+          class="mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+          role="alert"
+        >
+          <strong class="font-bold">Error: </strong>
+          <span class="block sm:inline">{{ errorMessage }}</span>
+        </div> -->
+    </div>
+    <div class="max-w-lg mx-auto bg-white shadow-lg rounded-lg p-8 my-4">
+      <!-- 
+        <div
+          *ngIf="errorMessage"
+          class="mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+          role="alert"
+        >
+          <strong class="font-bold">Error: </strong>
+          <span class="block sm:inline">{{ errorMessage }}</span>
+        </div> -->
+
+      <h3 class="text-lg font-bold mb-4">Datos del Crédito</h3>
+      <div class="mb-4">
+        <label for="amount" class="block text-gray-700">Monto</label>
+        <input
+          type="number"
+          id="amount"
+          formControlName="amount"
+          required
+          class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:ring-blue-500"
+          [class.border-red-500]="
+            formGroup.get('amount')?.touched && formGroup.get('amount')?.invalid
+          "
+        />
+      </div>
+      <div class="mb-4">
+        <label for="termMonths" class="block text-gray-700">
+          Plazo (Meses)
+        </label>
+        <!-- <input
+          type="text"
+          id="termMonths"
+          formControlName="termMonths"
+          required
+          class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:ring-blue-500"
+          [class.border-red-500]="
+            formGroup.get('termMonths')?.touched &&
+            formGroup.get('termMonths')?.invalid
+          "
+        /> -->
+        <select
+          id="termMonths"
+          formControlName="termMonths"
+          required
+          class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:ring-blue-500"
+          [class.border-red-500]="
+            formGroup.get('termMonths')?.touched &&
+            formGroup.get('termMonths')?.invalid
+          "
+        >
+          <option value="" disabled selected>Seleccione Plazo (Meses)</option>
+          <option *ngFor="let month of termMonthsOptions" [value]="month.value">
+            {{ month.label }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="max-w-lg mx-auto bg-white shadow-lg rounded-lg p-8 my-4">
+      <h3 class="text-lg font-bold mb-4">Datos del Trabajo</h3>
+      <div class="mb-4">
+        <label for="monthlyIncome" class="block text-gray-700">
+          Ingreso Mensual
+        </label>
+        <input
+          type="text"
+          id="monthlyIncome"
+          formControlName="monthlyIncome"
+          required
+          class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:ring-blue-500"
+          [class.border-red-500]="
+            formGroup.get('monthlyIncome')?.touched &&
+            formGroup.get('monthlyIncome')?.invalid
+          "
+        />
+      </div>
+      <div class="mb-4">
+        <label for="jobSeniorityYears" class="block text-gray-700">
+          Años de Antigüedad
+        </label>
+        <input
+          type="text"
+          id="jobSeniorityYears"
+          formControlName="jobSeniorityYears"
+          required
+          class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:ring-blue-500"
+          [class.border-red-500]="
+            formGroup.get('jobSeniorityYears')?.touched &&
+            formGroup.get('jobSeniorityYears')?.invalid
+          "
+        />
+      </div>
+    </div>
+    <!-- Submit -->
+    <div class="max-w-lg mx-auto mb-4">
+      <button
+        type="submit"
+        class="w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+      >
+        Enviar Solicitud
+      </button>
+    </div>
+  </form>
+</div>

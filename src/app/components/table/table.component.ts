@@ -1,9 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, TemplateRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 export interface TableColumn<T> {
   key: keyof T;
   header: string;
+  template?: TemplateRef<any>;
 }
 
 export interface TableAction<T> {

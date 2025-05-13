@@ -7,6 +7,8 @@ import {
   RegisterResponse,
 } from '../models/auth.model';
 import { HttpClient } from '@angular/common/http';
+import { IResponse } from '../models/responses.model';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root',
@@ -16,8 +18,11 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  login(credentials: LoginRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, credentials);
+  login(credentials: LoginRequest): Observable<IResponse<LoginResponse>> {
+    return this.http.post<IResponse<LoginResponse>>(
+      `${this.apiUrl}/login`,
+      credentials
+    );
   }
 
   logout(): void {
@@ -30,6 +35,25 @@ export class AuthService {
 
   getToken(): string | null {
     return localStorage.getItem('token');
+  }
+
+  getUserData(): Partial<LoginResponse> | null {
+    const token = this.getToken();
+    if (!token) return null;
+
+    try {
+      const data = jwtDecode<any>(token);
+      return {
+        id: data['nameid'],
+        email: data['email'],
+        roles: Array.isArray(data['role']) ? data['role'] : [data['role']],
+        name: data['unique_name'],
+        lastname: data['family_name'],
+      };
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return null;
+    }
   }
 
   isLoggedIn(): boolean {

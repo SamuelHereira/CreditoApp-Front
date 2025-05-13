@@ -2,16 +2,30 @@
   <table class="min-w-full divide-y divide-gray-200 text-sm text-left">
     <thead class="bg-gray-100 text-xs uppercase text-gray-700">
       <tr>
-        <th *ngFor="let column of columns" class="px-6 py-3 font-medium">
+        <th
+          *ngFor="let column of columns"
+          class="px-6 py-3 font-medium text-center"
+        >
           {{ column.header }}
         </th>
-        <th *ngIf="actions.length" class="px-6 py-3 font-medium">Acciones</th>
+        <th *ngIf="actions.length" class="px-6 py-3 font-medium text-center">
+          Acciones
+        </th>
       </tr>
     </thead>
     <tbody class="bg-white divide-y divide-gray-200">
       <tr *ngFor="let row of paginationEnabled ? paginatedData : data">
-        <td *ngFor="let column of columns" class="px-6 py-4">
-          {{ row[column.key] }}
+        <td *ngFor="let column of columns" class="px-6 py-4 text-center">
+          <ng-container *ngIf="!column.template">
+            {{ row[column.key] }}
+          </ng-container>
+
+          <ng-container
+            *ngIf="column.template"
+            [ngTemplateOutlet]="column.template"
+            [ngTemplateOutletContext]="{ value: row[column.key], row: row }"
+          >
+          </ng-container>
         </td>
         <td *ngIf="actions.length" class="px-6 py-4 space-x-2">
           <button

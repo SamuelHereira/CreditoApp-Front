@@ -21,6 +21,15 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     data: { roles: ['Applicant'] },
   },
+  {
+    path: 'new-request',
+    loadComponent: () =>
+      import('./pages/new-request/new-request.component').then(
+        (m) => m.NewRequestComponent
+      ),
+    canActivate: [AuthGuard],
+    data: { roles: ['Applicant'] },
+  },
   //   { path: 'review', loadComponent: () => import('./pages/analyst-review/review.component').then(m => m.ReviewComponent), canActivate: [AuthGuard], data: { roles: ['Analyst'] } },
   { path: '**', redirectTo: 'login' },
 ];

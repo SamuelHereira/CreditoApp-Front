@@ -40,13 +40,23 @@ export class LoginComponent {
     const data: LoginRequest = this.form.value;
 
     this.authService.login(data).subscribe({
-      next: (res) => {
-        this.authService.saveToken(res.token);
+      next: ({ data }) => {
+        if (!data) {
+          this.errorMessage = 'Error en la respuesta del servidor';
+          return;
+        }
+
+        this.authService.saveToken(data?.token);
+
+        console.log('Login exitoso, redirigiendo a la página de inicio...');
+
+        console.log('Roles del usuario:', data?.roles);
 
         // Redirigir según el rol
-        if (res.roles.includes('Analyst')) {
+        if (data?.roles.includes('Analyst')) {
           this.router.navigate(['/review']);
         } else {
+          console.log('Redirigiendo a la página de inicio...');
           this.router.navigate(['/dashboard']);
         }
       },
