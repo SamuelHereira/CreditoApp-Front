@@ -6,6 +6,7 @@ import { LoginResponse } from '../../models/auth.model';
 import { AuthService } from '../../services/auth.service';
 import { RequestsService } from '../../services/requests.service';
 import { CreditRequestPayload } from '../../models/requests.model';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-new-request',
@@ -41,7 +42,8 @@ export class NewRequestComponent {
   constructor(
     private fb: FormBuilder,
     authService: AuthService,
-    requestsService: RequestsService
+    requestsService: RequestsService,
+    private alertService: AlertService
   ) {
     this.formGroup = this.fb.group({
       amount: [
@@ -72,12 +74,26 @@ export class NewRequestComponent {
 
       this._requestsService.createRequest(payload).subscribe({
         next: (response) => {
-          console.log('Request created successfully:', response);
-
           this.formGroup.reset();
+          this.alertService.showAlert({
+            message: 'Solicitud creada exitosamente',
+            type: 'success',
+            duration: 1000,
+            onEnd: () => {
+              console.log('Redirigiendo a la página de inicio...');
+              // Redirigir a la página de inicio o a donde desees
+            },
+          });
         },
         error: (error) => {
-          console.error('Error creating request:', error);
+          this.alertService.showAlert({
+            message: 'Error creando la solicitud',
+            type: 'error',
+            duration: 2000,
+            onEnd: () => {
+              console.log('Error:', error);
+            },
+          });
         },
       });
     } else {

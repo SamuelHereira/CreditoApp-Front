@@ -4,6 +4,7 @@ import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   standalone: true,
@@ -19,7 +20,8 @@ export class RegisterComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private alertService: AlertService
   ) {
     this.form = this.fb.group(
       {
@@ -44,7 +46,14 @@ export class RegisterComponent {
     this.authService.register(this.form.value).subscribe({
       next: (res) => {
         this.authService.saveToken(res.token);
-        this.router.navigate(['/dashboard']); // o redirigir según rol
+        this.alertService.showAlert({
+          message: 'Registro exitoso',
+          type: 'success',
+          duration: 1000,
+          onEnd: () => {
+            this.router.navigate(['/login']); // o redirigir según rol
+          },
+        });
       },
       error: (err) => {
         this.errorMessage = err.error?.errorMessage || 'Error en el registro';

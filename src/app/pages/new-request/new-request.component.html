@@ -42,6 +42,7 @@
         <label for="amount" class="block text-gray-700">Monto</label>
         <input
           type="number"
+          min="0"
           id="amount"
           formControlName="amount"
           required
@@ -90,7 +91,8 @@
           Ingreso Mensual
         </label>
         <input
-          type="text"
+          type="number"
+          min="0"
           id="monthlyIncome"
           formControlName="monthlyIncome"
           required
@@ -106,7 +108,8 @@
           Años de Antigüedad
         </label>
         <input
-          type="text"
+          type="number"
+          min="0"
           id="jobSeniorityYears"
           formControlName="jobSeniorityYears"
           required

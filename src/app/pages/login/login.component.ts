@@ -9,6 +9,7 @@ import { Router, RouterModule } from '@angular/router';
 import { LoginRequest } from '../../models/auth.model';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +24,8 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private alertService: AlertService
   ) {
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -48,17 +50,20 @@ export class LoginComponent {
 
         this.authService.saveToken(data?.token);
 
-        console.log('Login exitoso, redirigiendo a la página de inicio...');
-
-        console.log('Roles del usuario:', data?.roles);
-
+        this.alertService.showAlert({
+          message: 'Login exitoso',
+          type: 'success',
+          duration: 1000,
+          onEnd: () => {
+            if (data?.roles.includes('Analyst')) {
+              this.router.navigate(['/review-requests']);
+            } else {
+              console.log('Redirigiendo a la página de inicio...');
+              this.router.navigate(['/dashboard']);
+            }
+          },
+        });
         // Redirigir según el rol
-        if (data?.roles.includes('Analyst')) {
-          this.router.navigate(['/review-requests']);
-        } else {
-          console.log('Redirigiendo a la página de inicio...');
-          this.router.navigate(['/dashboard']);
-        }
       },
       error: () => {
         console.log('Error en el login');

@@ -22,7 +22,9 @@ export class NavbarComponent {
 
   // Add any methods or properties needed for the navbar component
   onLogout(): void {
+    console.log('Logout');
     this.authService.logout();
+    this.router.navigate(['/login']);
   }
 
   onProfile(): void {
