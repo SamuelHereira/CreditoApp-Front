@@ -1,3 +1,5 @@
+import { UserData } from './auth.model';
+
 export interface CreditRequestPayload {
   userId: number;
   amount: number;
@@ -17,4 +19,6 @@ export interface CreditRequest {
   requestDate: string;
   createdAt: string;
   updatedAt: string;
+  user?: UserData;
+  updateDate?: string;
 }

@@ -71,6 +71,7 @@
               class="rounded-md px-3 py-2 text-sm font-medium text-white"
               aria-current="page"
               [class.bg-gray-900]="route === '/dashboard'"
+              *ngIf="roles.includes('Applicant')"
             >
               Solicitudes de crédito
             </a>
@@ -79,8 +80,18 @@
               class="rounded-md px-3 py-2 text-sm font-medium text-white"
               aria-current="page"
               [class.bg-gray-900]="route === '/new-request'"
+              *ngIf="roles.includes('Applicant')"
             >
               Nueva solicitud
+            </a>
+            <a
+              href="review"
+              class="rounded-md px-3 py-2 text-sm font-medium text-white"
+              aria-current="page"
+              [class.bg-gray-900]="route === '/review-requests'"
+              *ngIf="roles.includes('Analyst')"
+            >
+              Solicitudes de crédito
             </a>
           </div>
         </div>

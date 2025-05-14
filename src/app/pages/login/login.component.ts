@@ -54,7 +54,7 @@ export class LoginComponent {
 
         // Redirigir según el rol
         if (data?.roles.includes('Analyst')) {
-          this.router.navigate(['/review']);
+          this.router.navigate(['/review-requests']);
         } else {
           console.log('Redirigiendo a la página de inicio...');
           this.router.navigate(['/dashboard']);

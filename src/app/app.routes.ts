@@ -30,6 +30,24 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     data: { roles: ['Applicant'] },
   },
-  //   { path: 'review', loadComponent: () => import('./pages/analyst-review/review.component').then(m => m.ReviewComponent), canActivate: [AuthGuard], data: { roles: ['Analyst'] } },
+  {
+    path: 'review-requests',
+    loadComponent: () =>
+      import('./pages/review-requests/review-requests.component').then(
+        (m) => m.ReviewRequestsComponent
+      ),
+    canActivate: [AuthGuard],
+    data: { roles: ['Analyst'] },
+  },
+  {
+    path: 'review-requests/:id',
+    loadComponent: () =>
+      import('./pages/request-details/request-details.component').then(
+        (m) => m.RequestDetailsComponent
+      ),
+    canActivate: [AuthGuard],
+    data: { roles: ['Analyst'] },
+  },
+
   { path: '**', redirectTo: 'login' },
 ];

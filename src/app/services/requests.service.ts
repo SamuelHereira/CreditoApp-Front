@@ -12,8 +12,15 @@ export class RequestsService {
 
   constructor(private http: HttpClient) {}
 
-  getAllRequests(): Observable<IResponse<CreditRequest[]>> {
-    return this.http.get<IResponse<CreditRequest[]>>(`${this.apiUrl}`);
+  getAllRequests(
+    status?: number | null
+  ): Observable<IResponse<CreditRequest[]>> {
+    console.log('Fetching all requests with status:', status);
+    return this.http.get<IResponse<CreditRequest[]>>(`${this.apiUrl}`, {
+      params: {
+        status: status ? status.toString() : '',
+      },
+    });
   }
 
   getUserRequests(userId: string): Observable<IResponse<CreditRequest[]>> {
@@ -35,11 +42,11 @@ export class RequestsService {
   }
 
   updateRequestStatus(
-    requestId: string,
-    status: string
+    requestId: number,
+    status: number
   ): Observable<IResponse<CreditRequest>> {
     return this.http.put<IResponse<CreditRequest>>(
-      `${this.apiUrl}/${requestId}`,
+      `${this.apiUrl}/${requestId}/status`,
       { status }
     );
   }

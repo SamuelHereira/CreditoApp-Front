@@ -1,0 +1,83 @@
+<app-navbar></app-navbar>
+
+<div
+  class="bg-blue-100 text-blue-800 px-4 py-2 rounded w-max mx-auto my-4"
+  *ngIf="
+    requestDetails?.status === 'Pending' &&
+    (requestDetails?.monthlyIncome || 0) > 1500
+  "
+>
+  <p>
+    El usuario tiene un ingreso mensual de
+    <strong>${{ requestDetails?.monthlyIncome }}</strong>
+  </p>
+  <p class="my-2">
+    *Se recomienda <strong class="text-green-800">Aprobar</strong> la solicitud
+  </p>
+</div>
+
+<div class="w-max mx-auto mt-4">
+  <!-- Detalles de la solicitud -->
+  <!--Recomendar aprobar la solicitud-->
+
+  <div class="bg-white shadow-md rounded-lg p-6 mb-4">
+    <h3 class="text-lg font-bold mb-4">Detalles de la Solicitud</h3>
+    <p><strong>ID:</strong> {{ requestDetails?.id }}</p>
+    <p><strong>Nombre:</strong> {{ requestDetails?.user?.name }}</p>
+    <p><strong>Email:</strong> {{ requestDetails?.user?.email }}</p>
+    <p><strong>Monto:</strong> {{ requestDetails?.amount }}</p>
+    <p><strong>Plazo (Meses):</strong> {{ requestDetails?.termMonths }}</p>
+    <p>
+      <strong>Estado:</strong>
+      {{
+        requestDetails?.status === "Approved"
+          ? "Aprobada"
+          : requestDetails?.status === "Rejected"
+          ? "Rechazada"
+          : "Pendiente"
+      }}
+    </p>
+    <p>
+      <strong>Fecha de Solicitud:</strong>
+      {{ requestDetails?.requestDate | date }}
+    </p>
+  </div>
+</div>
+<div
+  class="flex justify-center space-x-4"
+  *ngIf="requestDetails?.status === 'Pending'"
+>
+  <button
+    (click)="approveRequest(requestDetails?.id!)"
+    class="bg-green-500 text-white px-4 py-2 rounded"
+  >
+    Aprobar
+  </button>
+  <button
+    (click)="rejectRequest(requestDetails?.id!)"
+    class="bg-red-500 text-white px-4 py-2 rounded"
+  >
+    Rechazar
+  </button>
+</div>
+<!-- Rechazado el -->
+<div
+  class="flex justify-center space-x-4 bg-red-100 text-red-800 px-4 py-2 rounded w-max mx-auto"
+  *ngIf="requestDetails?.status === 'Rejected'"
+>
+  <p>Rechazado el {{ requestDetails?.updateDate | date }}</p>
+</div>
+
+<div
+  class="flex justify-center space-x-4 bg-green-100 text-green-800 px-4 py-2 rounded w-max mx-auto"
+  *ngIf="requestDetails?.status === 'Approved'"
+>
+  <p>Aprobado el {{ requestDetails?.updateDate | date }}</p>
+</div>
+
+<!-- boton de regresar -->
+<div class="flex justify-center space-x-4 my-4">
+  <button (click)="goBack()" class="bg-gray-500 text-white px-4 py-2 rounded">
+    Regresar
+  </button>
+</div>
